@@ -1,0 +1,29 @@
+.container {
+    background-image: url('../../assets/background.png');
+};
+
+.container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+};
+
+.card-login {
+    border-radius: .25rem;
+    background-color: rgba(0,0,0,0.4);
+    height: 400px;
+    width: 400px;
+    border: 1px solid rgba(0,0,0,.125);
+
+    > div {
+        padding: 20px !important;
+    }
+}
+
+.login-form {
+    > div {
+        padding: 0 !important;
+    }
+}
