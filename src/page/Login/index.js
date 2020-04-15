@@ -4,9 +4,11 @@ import {
     Input,
     Button,
     Checkbox,
-    Card
+    Card,
+    Col,
+    Row
 } from 'antd';
-// import { UserOut}
+import { UserOutlined, LockOutlined, FacebookOutlined, GoogleOutlined, DownloadOutlined } from '@ant-design/icons';
 import cx from 'classnames';
 
 import styles from './styles.module.scss';
@@ -21,6 +23,10 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 }
 };
 
+const rightItem = {
+    wrapperCol: { offset: 16, span: 16 }
+};
+
 const Login = () => {
     const onFinish = useCallback((values) => {
         console.log('values', values);
@@ -32,8 +38,8 @@ const Login = () => {
     return (
         <div className={styles['container']}>
             <Card className={styles['card-login']}>
-                <h4 className="text-white">
-                    Login
+                <h4 className={styles['title']}>
+                    LOGIN
                 </h4>
                 <Form
                     {...layout}
@@ -61,17 +67,35 @@ const Login = () => {
                     >
                         <Input.Password />
                     </Form.Item>
-                    <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-                        <Checkbox>
+                    <Form.Item {...tailLayout} name="remember" valuePropName="checked" style={{ marginTop: '-15px' }}>
+                        <Checkbox className="text-white">
                             Remember me
                         </Checkbox>
                     </Form.Item>
                     <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
-                            Submit
+                            Login
                         </Button>
                     </Form.Item>
+                    <Form.Item {...rightItem} style={{ marginTop: '-15px' }}>
+                        <a href="https://www.google.com.vn/" target="_blank" rel="noopener noreferrer" className="text-white">
+                            Forgot password?
+                        </a>
+                    </Form.Item>
                 </Form>
+                <div className="mt-n3">
+                    <div className="d-flex justify-content-center text-white">
+                        Or login with
+                    </div>
+                    <Row className="d-flex justify-content-center my-3">
+                        <Button type="primary" shape="round" icon={<FacebookOutlined />} size="middle" className="mr-3">
+                            Facebook
+                        </Button>
+                        <Button type="primary" shape="round" icon={<GoogleOutlined />} size="middle">
+                            Google
+                        </Button>
+                    </Row>
+                </div>
             </Card>
         </div>
 

@@ -83,7 +83,8 @@ module.exports = {
         "react/no-array-index-key": "off",
         "react/no-unused-prop-types": "warn",
         "react/no-unused-state": "warn",
-        "react/no-danger": "off"
+        "react/no-danger": "off",
+        "linebreak-style": "off"
     }
   };
   
