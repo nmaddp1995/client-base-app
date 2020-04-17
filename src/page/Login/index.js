@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import {
     Form,
     Input,
     Button,
     Checkbox,
     Card,
-    Col,
     Row
 } from 'antd';
-import { UserOutlined, LockOutlined, FacebookOutlined, GoogleOutlined, DownloadOutlined } from '@ant-design/icons';
-import cx from 'classnames';
+import { FacebookOutlined, GoogleOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
 
 import styles from './styles.module.scss';
 import './styles.scss';
+import { loginSaga } from '../../module/action/user';
 
 const layout = {
     labelCol: { span: 8 },
@@ -27,14 +27,27 @@ const rightItem = {
     wrapperCol: { offset: 16, span: 16 }
 };
 
+const initialValues = {
+    username: 'admin',
+    password: '123456789',
+    remember: true
+};
+
 const Login = () => {
+    const dispatch = useDispatch();
+
     const onFinish = useCallback((values) => {
-        console.log('values', values);
-    }, []);
+        const { username, password } = values;
+        dispatch(loginSaga({
+            username,
+            password
+        }));
+    }, [dispatch]);
 
     const onFinishFailed = useCallback((errInfo) => {
         console.log('errInfo', errInfo);
     }, []);
+
     return (
         <div className={styles['container']}>
             <Card className={styles['card-login']}>
@@ -44,7 +57,7 @@ const Login = () => {
                 <Form
                     {...layout}
                     name="login-form"
-                    initialValues={{ remember: true }}
+                    initialValues={initialValues}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     className="login-form"
@@ -68,7 +81,7 @@ const Login = () => {
                         <Input.Password />
                     </Form.Item>
                     <Form.Item {...tailLayout} name="remember" valuePropName="checked" style={{ marginTop: '-15px' }}>
-                        <Checkbox className="text-white">
+                        <Checkbox>
                             Remember me
                         </Checkbox>
                     </Form.Item>
@@ -78,13 +91,13 @@ const Login = () => {
                         </Button>
                     </Form.Item>
                     <Form.Item {...rightItem} style={{ marginTop: '-15px' }}>
-                        <a href="https://www.google.com.vn/" target="_blank" rel="noopener noreferrer" className="text-white">
+                        <a href="https://www.google.com.vn/" target="_blank" rel="noopener noreferrer">
                             Forgot password?
                         </a>
                     </Form.Item>
                 </Form>
                 <div className="mt-n3">
-                    <div className="d-flex justify-content-center text-white">
+                    <div className="d-flex justify-content-center ">
                         Or login with
                     </div>
                     <Row className="d-flex justify-content-center my-3">
@@ -96,6 +109,12 @@ const Login = () => {
                         </Button>
                     </Row>
                 </div>
+                <Row className="mt-4 justify-content-center">
+                    <span>
+                        Not a member? &nbsp;
+                    </span>
+                    <a href="/signup">Sign up</a>
+                </Row>
             </Card>
         </div>
 

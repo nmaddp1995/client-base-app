@@ -1,32 +1,42 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
+import {
+    Switch,
+    Route
+} from 'react-router-dom';
 
-import logo from './logo.svg';
-import './App.css';
+import Home from './page/Home';
+import Login from './page/Login';
+import Signup from './page/Signup';
+import NotFound from './page/NotFound';
+import Profile from './page/Profile';
+import PrivateRoute from './component/PrivateRoute';
 
-function App() {
+export const URL_HOME = '/';
+export const URL_LOGIN = '/login';
+export const URL_SIGNUP = '/signup';
+export const URL_PROFILE = '/profile';
+export const URL_NOT_FOUND = '*';
+
+const App = () => {
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit
-                    {' '}
-                    <code>src/App.js</code>
-                    {' '}
-                    and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
-        </div>
+        <Switch>
+            <Route exact path={URL_HOME}>
+                <Home />
+            </Route>
+            <Route exact path={URL_LOGIN}>
+                <Login />
+            </Route>
+            <Route exact path={URL_SIGNUP}>
+                <Signup />
+            </Route>
+            <PrivateRoute exact path={URL_PROFILE}>
+                <Profile />
+            </PrivateRoute>
+            <Route path={URL_NOT_FOUND}>
+                <NotFound />
+            </Route>
+        </Switch>
     );
-}
+};
 
 export default App;

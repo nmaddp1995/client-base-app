@@ -1,3 +1,7 @@
 .anticon svg {
-    vertical-align: top !important;
+    vertical-align: unset !important;
+}
+
+.ant-form-item-label {
+    text-align: left !important;
 }
