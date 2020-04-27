@@ -85,7 +85,8 @@ module.exports = {
         "react/no-unused-state": "warn",
         "react/no-danger": "off",
         "linebreak-style": "off",
-        "arrow-body-style": "off"
+        "arrow-body-style": "off",
+        "arrow-parens": "off"
     }
   };
   

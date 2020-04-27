@@ -64,7 +64,7 @@ export function* callAPISaga({
         });
         const errRes = err.response;
         if (messageFailure || descriptionFailure || useErrMsg || useDescMsg) {
-            const errMsg = get(errRes, 'data.message');
+            const errMsg = get(errRes, 'data.message', 'Something went wrong!');
             notification[typeFailure]({
                 message: useErrMsg ? errMsg : messageFailure,
                 description: useDescMsg ? errMsg : descriptionFailure,

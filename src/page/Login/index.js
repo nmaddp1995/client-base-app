@@ -5,14 +5,16 @@ import {
     Button,
     Checkbox,
     Card,
-    Row
+    Row,
+    notification
 } from 'antd';
 import { FacebookOutlined, GoogleOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 
 import styles from './styles.module.scss';
 import './styles.scss';
-import { loginSaga } from '../../module/action/user';
+import { loginSaga, loginFBSaga } from '../../module/action/user';
+import FacebookLogin from '../../component/FacebookLogin';
 
 const layout = {
     labelCol: { span: 8 },
@@ -33,6 +35,15 @@ const initialValues = {
     remember: true
 };
 
+const handleLoginByFBFailure = (error) => {
+    console.log('error', error);
+    notification.error({
+        message: 'Something went wrong when logging by facebook',
+        placement: 'bottomLeft',
+        duration: 3.5
+    });
+};
+
 const Login = () => {
     const dispatch = useDispatch();
 
@@ -47,6 +58,13 @@ const Login = () => {
     const onFinishFailed = useCallback((errInfo) => {
         console.log('errInfo', errInfo);
     }, []);
+
+    const handleLoginByFBSuccess = useCallback(
+        (res) => {
+            const { authRes, userData } = res;
+            dispatch(loginFBSaga({ authRes, userData }));
+        }, [dispatch]
+    );
 
     return (
         <div className={styles['container']}>
@@ -80,11 +98,11 @@ const Login = () => {
                     >
                         <Input.Password />
                     </Form.Item>
-                    <Form.Item {...tailLayout} name="remember" valuePropName="checked" style={{ marginTop: '-15px' }}>
+                    {/* <Form.Item {...tailLayout} name="remember" valuePropName="checked" style={{ marginTop: '-15px' }}>
                         <Checkbox>
                             Remember me
                         </Checkbox>
-                    </Form.Item>
+                    </Form.Item> */}
                     <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
                             Login
@@ -101,10 +119,16 @@ const Login = () => {
                         Or login with
                     </div>
                     <Row className="d-flex justify-content-center my-3">
-                        <Button type="primary" shape="round" icon={<FacebookOutlined />} size="middle" className="mr-3">
-                            Facebook
-                        </Button>
-                        <Button type="primary" shape="round" icon={<GoogleOutlined />} size="middle">
+                        <FacebookLogin
+                            appId="540820843487239"
+                            callback={handleLoginByFBSuccess}
+                            handleError={handleLoginByFBFailure}
+                        >
+                            <Button type="primary" shape="round" icon={<FacebookOutlined />} size="middle" className="mr-3 btn-login-social">
+                                Facebook
+                            </Button>
+                        </FacebookLogin>
+                        <Button type="primary" shape="round" icon={<GoogleOutlined />} size="middle" className="btn-login-social">
                             Google
                         </Button>
                     </Row>
@@ -115,6 +139,15 @@ const Login = () => {
                     </span>
                     <a href="/signup">Sign up</a>
                 </Row>
+                {/* <FacebookLogin
+                    appId="540820843487239"
+                    autoLoad
+                    callback={responseFacebook}
+                    render={renderProps => (
+                        // eslint-disable-next-line react/button-has-type
+                        <button onClick={renderProps.onClick}>This is my custom FB button</button>
+                    )}
+                /> */}
             </Card>
         </div>
 

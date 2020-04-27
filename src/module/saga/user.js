@@ -13,15 +13,17 @@ import {
     LOGIN_FAILURE,
     LOGOUT,
     LOGOUT_SUCCESS,
-    LOGOUT_FAILURE
+    LOGOUT_FAILURE,
+    LOGIN_FB_SAGA,
+    LOGIN_FB,
+    LOGIN_FB_FAILURE
 } from '../action/user';
-import { signupAPI, loginAPI, logoutApi } from '../api/user';
+import { signupAPI, loginAPI, logoutApi, loginFBAPI } from '../api/user';
 import { callAPISaga } from '.';
 import { URL_HOME, URL_LOGIN } from '../../App';
 
 function* loginSaga(action) {
-    const { payload } = action;
-    const { username, password } = payload;
+    const { username, password } = action.payload;
     yield callAPISaga({
         actionTypes: [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE],
         apiFunction: loginAPI,
@@ -64,6 +66,30 @@ function* signupSaga(action) {
     });
 }
 
+function* loginFBSaga(action) {
+    // eslint-disable-next-line no-unused-vars
+    const { authRes, userData } = action.payload;
+    const { email, name, id } = userData;
+    yield callAPISaga({
+        actionTypes: [LOGIN_FB, LOGIN_SUCCESS, LOGIN_FB_FAILURE],
+        apiFunction: loginFBAPI,
+        variable: {
+            email,
+            name,
+            id
+        },
+        success: {
+            message: `Welcome back, ${name}`,
+            * callback() {
+                yield put(push(URL_HOME));
+            }
+        },
+        failure: {
+            useErrMsg: true
+        }
+    });
+}
+
 function loginSuccessSaga(action) {
     const { token } = action.payload;
     localStorage.setItem('token', token);
@@ -91,6 +117,7 @@ export default function* userSaga() {
         takeEvery(SIGNUP_SAGA, signupSaga),
         takeEvery(LOGIN_SUCCESS, loginSuccessSaga),
         takeEvery(LOGOUT_SUCCESS, logoutSuccessSaga),
-        takeEvery(LOGOUT_SAGA, logoutSaga)
+        takeEvery(LOGOUT_SAGA, logoutSaga),
+        takeEvery(LOGIN_FB_SAGA, loginFBSaga)
     ]);
 }

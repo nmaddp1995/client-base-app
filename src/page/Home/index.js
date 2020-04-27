@@ -11,7 +11,7 @@ import styles from './styles.module.scss';
 const Home = () => {
     const user = useSelector(selectUser);
     const isLogged = user.logged;
-    const username = user.username;
+    const name = user.name;
     const dispatch = useDispatch();
     const onLogout = useCallback(() => {
         dispatch(logoutSaga());
@@ -25,7 +25,7 @@ const Home = () => {
                     </Link>
                 ) : (
                     <div>
-                        {`Hi ${username}, `}
+                        {`Hi ${name}, `}
                         <Button
                             type="link"
                             onClick={onLogout}

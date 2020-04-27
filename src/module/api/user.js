@@ -9,6 +9,14 @@ export const loginAPI = ({ username, password }) => {
     });
 };
 
+export const loginFBAPI = ({ email, name, id }) => {
+    return axios.post(`${URL_API_USER}/login-fb`, {
+        email,
+        name,
+        id
+    });
+};
+
 export const signupAPI = ({ username, email, password }) => {
     return axios.post(`${URL_API_USER}/signup`, {
         username,

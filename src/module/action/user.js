@@ -10,7 +10,10 @@ export const SIGNUP_FAILURE = 'user/SIGNUP_FAILURE';
 export const LOGOUT = 'user/LOGOUT';
 export const LOGOUT_SUCCESS = 'user/LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'user/LOGOUT_FAILURE';
-
+export const LOGIN_FB_SAGA = 'user/LOGIN_FB_SAGA';
+export const LOGIN_FB = 'user/LOGIN_FB';
+export const LOGIN_FB_SUCCESS = 'user/LOGIN_FB_SUCCESS';
+export const LOGIN_FB_FAILURE = 'user/LOGIN_FB_FAILURE';
 
 export const loginSaga = ({ username, password }) => ({
     type: LOGIN_SAGA,
@@ -39,5 +42,13 @@ export const signupSaga = ({ username, email, password }) => ({
         username,
         email,
         password
+    }
+});
+
+export const loginFBSaga = ({ authRes, userData }) => ({
+    type: LOGIN_FB_SAGA,
+    payload: {
+        authRes,
+        userData
     }
 });
